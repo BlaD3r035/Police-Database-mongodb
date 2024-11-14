@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MCPD database</title>
+    <link rel="stylesheet" href="/login/styles.css">
+</head>
+<body>
+    <header>
+        <div class="header-logo">
+            <img src="../images/logo.webp" alt="MCPD LOGO">
+            <h1>MCPD</h1>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="#">HOME</a></li>
+                <li><a href="#">CONTACT</a></li>
+                <li><a href="#">DEVELOPER NOTES</a></li>
+
+                
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="consulta">
+            <h2>MACONDO POLICE DEPARMENT DATABASE</h2>
+
+            <h2>Login</h2>
+            <form id="consultaForm" method="post" action="/v1/login">
+                <% if (typeof msg !== 'undefined') { %>
+                    <div class="message"><%= msg %></div>
+                <% } %>
+                <label for="docId">Document Id: *</label>
+                <input type="text" id="docId" name="docId" required>
+            
+                <label for="password">Password: *</label>
+                <input type="password" id="password" name="password" required>
+            
+                <button type="submit">Login</button>
+            </form>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-info">
+            <p>All of this page is fictional and not related to any real police department or public/private services.</p>
+
+        </div>
+        <div class="footer-links"></div>
+    </footer>
+
+ 
+</body>
+</html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MCPD</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="./script.js" defer></script>
+</head>
+<body>
+
+    <!-- Header -->
+    <header>
+        <img src="./images/logo.webp" alt="MCPD">
+        <h1>MCPD</h1>
+        <nav>
+            <li><a href="#">HOME</a></li>
+                <li><a href="#">CONTACT</a></li>
+                <li><a href="#">DEVELOPER NOTES</a></li>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <h1>MACONDO POLICE DEPARTMENT</h1>
+        <p>To protect and to serve</p>
+        <h2><br>SERVICES</h2>
+        
+        <button onclick="redirect(1)">Criminal Record Checks</button>
+        <button onclick="redirect(2)">Police Database</button>
+        
+    </main>
+
+    <footer>
+        <p>All of this page is fictional and not related to any real police department or public/private services.</p>
+    </footer>
+
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2992617549812829" crossorigin="anonymous"></script>
+    <script>
+        function redirect(num){
+            if (num === 1) {
+                window.location.href = '/public/v1/searchRecords';
+            } else if (num === 2) {
+                window.location.href = '/v1/login';
+            }
+        }
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MCPD DB</title>
+    <link rel="stylesheet" href="/dashboard/styles.css">
+</head>
+<body>
+    <header>
+        <div class="header-logo">
+            <img src="../images/logo.webp" alt="Colombian National Police">
+        </div>
+        <nav>
+            <ul>
+                <li><a href="#">HOME</a></li>
+                <li><a href="#">CONTACT</a></li>
+                <li><a href="#">DEVELOPER NOTES</a></li>
+            </ul>
+        </nav>
+    </header>
+    
+    <main>
+      <div class="maincontainer">
+        <div class="headermain">
+            <h2 class="headertittle">MACONDO POLICE DATABASE</h2>
+            <div class="search-options-box">
+                <nav>
+                    <div class="InputContainer">
+                        <input type="text" name="text" class="input" id="input" placeholder="plate or document ID">
+                        <label for="input" class="labelforsearch"></label>
+                        <div class="border"></div>
+                        <button class="micButton" onclick="getIdByDoc()">
+                            <svg viewBox="0 0 384 512" class="micIcon"><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z"></path></svg>
+                        </button>
+                    </div>
+                </nav>
+            </div>
+        </div>
+        <div class="main-box">
+            <div class="lateral-box">
+                <img id="avatar" src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png" alt="Avatar">
+                <p><strong>Name:</strong> <span id="name"></span></p>
+                <p><strong>Last Name:</strong> <span id="last-name"></span></p>
+                <p><strong>Nationality:</strong> <span id="nacionality"></span></p>
+                <p><strong>Height:</strong> <span id="height"></span> cm</p>
+                <p><strong>Sex:</strong> <span id="sex"></span></p>
+                <p><strong>Birth Date:</strong> <span id="birthdate"></span></p>
+                <p><strong>Age:</strong> <span id="age"></span></p>
+                <p><strong>B.G:</strong> <span id="bg"></span></p>
+                <p><strong>Username:</strong> <span id="username"></span></p>
+                <p><strong>Document ID:</strong> <span id="ndoc"></span></p>
+                <p><span id="byc"></span></p>
+            </div>
+            <div class="right-content-box">
+                <div class="table-container">
+                    <label for="table-licence">LICENCE</label>
+                    <table id="table-licence">
+                        <tr><th>STATUS</th><th>CATEGORY</th><th>EXP</th><th>RESTRICTION</th></tr>
+                    </table>
+                    <br>
+                    <label for="table-vehicles">VEHICLES</label>
+                    <table id="table-vehicles">
+                        <tr><th>MODEL</th><th>PLATE</th><th>COLOR</th></tr>
+                    </table>
+                    <br>
+
+                    <label for="table-records">CRIMINAL RECORDS</label>
+                    <table id="table-records">
+                        <tr><th>RECORD</th><th>TIME</th><th>OFFICER NAME</th><th>REG DATE</th></tr>
+                    </table>
+                    <br>
+
+                    <label for="table-tickets">TICKETS</label>
+                    <table id="table-tickets">
+                        <tr><th>ARTICLES</th><th>PLATE</th><th>COST</th><th>OFFICER NAME</th><th>REG DATE</th></tr>
+                    </table>
+                    <br>
+
+                    <label for="table-warnings">WARNINGS</label>
+                    <table id="table-warnings">
+                        <tr><th>WARNINGS</th></tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+      </div>
+      <div class="form-buttons">
+        <button onclick="toggleForm('form-tickets', 'form-arrest')">Add Ticket</button>
+        <button onclick="toggleForm('form-arrest', 'form-tickets')">Add Arrest</button>
+        <button onclick="cerrarSesion()" style="background-color: red; color: white;">Logout</button>
+    </div> 
+    <div class="registers">
+        <div id="form-tickets" class="form-container" style="display: none;">
+            <h2>Add Traffic Ticket</h2>
+            <form id="upload-ticket-form">
+                <label for="selector">Type</label>    
+                <label for="articulos-multa">Articles:</label>
+                <input type="text" id="articulos-multa" name="record" required>
+                <label for="placa-multa">Plate:</label>
+                <input type="text" id="placa-multa" name="plate" required>
+                <label for="valor-multa">Value:</label>
+                <input type="number" id="valor-multa" name="value" required>
+                <label>Officer Information: <br> <strong>Name: <%=userdata.nombreic%></strong> <br><strong>Last Name: <%=userdata.apellido1ic%></strong> <br><strong>Document ID: <%=userdata.documentId%></strong> <br></label>
+                <label>Pedestrian Information: <br> <strong id="name-form">Name:</strong> <br><strong id="lastName-form">Last Name:</strong> <br><strong id="documentId-form">Document ID:</strong> <br></label>  
+                <button type="submit">Add Record</button>
+            </form>
+        </div>
+        <div id="form-arrest" class="form-container" style="display: none;">
+            <h2>Add Arrest</h2>
+            <form id="upload-arrest-form">
+                <label for="articulo-arresto">Article:</label>
+                <input type="text" id="articulo-arresto" name="record" required>
+                <label for="tiempo-arresto">Time (months):</label>
+                <input type="number" id="tiempo-arresto" name="time" required>
+                <label for="photo">Photo:</label>
+                <input type="file" id="photo" name="photo" required> 
+                <label>Officer Information: <br> <strong>Name: <%=userdata.nombreic%></strong> <br><strong>Last Name: <%=userdata.apellido1ic%></strong> <br><strong>Document ID: <%=userdata.documentId%></strong> <br></label> 
+                <label>Individual Information: <br> <strong id="name-form2">Name:</strong> <br><strong id="lastName-form2">Last Name:</strong> <br><strong id="documentId-form2">Document ID:</strong> <br></label>  
+                <button type="submit">Add Arrest</button>
+            </form>
+        </div>
+    </div>
+    </main>
+    
+    <div id="loading" class="loading-container">
+        <div class="spinner"></div>
+        <p>Searching...</p>
+    </div>
+
+    <footer>
+        <div class="footer-info">
+            <label id="paragraph">All content on this page is fictional and not related to any real police department or public/private services.</label>
+        </div>
+    </footer>
+
+</body>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script>
+    let personInfo;
+    let searchPerson;
+    const agentName = '<%=userdata.nombreic%>' + " " + "<%=userdata.apellido1ic%>";
+    
+    function toggleForm(formId, formId2) {
+        if (!searchPerson) {
+            return;
+        } else {
+            document.getElementById('name-form').innerText = "Name: " + personInfo.nombreic;
+            document.getElementById('lastName-form').innerText = "Last Name: " + personInfo.apellido1ic;
+            document.getElementById('documentId-form').innerText = "Document ID: " + personInfo.documentId;
+            document.getElementById('name-form2').innerText = "Name: " + personInfo.nombreic;
+            document.getElementById('lastName-form2').innerText = "Last Name: " + personInfo.apellido1ic;
+            document.getElementById('documentId-form2').innerText = "Document ID: " + personInfo.documentId;
+            document.getElementById(formId2).style.display = 'none';
+            document.getElementById(formId).style.display = document.getElementById(formId).style.display === 'none' ? 'block' : 'none';
+        }
+    }
+    
+    function cerrarSesion() {
+        window.location.href = "/v1/logout";
+    }
+    
+
+    function populateTable(tableId, data, fields) {
+        const table = document.getElementById(tableId);
+        table.innerHTML = `<tr>${fields.map(field => `<th>${field.toUpperCase()}</th>`).join('')}</tr>`;
+        data.forEach(item => {
+            const row = document.createElement('tr');
+            fields.forEach(field => {
+                const cell = document.createElement('td');
+                cell.textContent = item[field];
+                row.appendChild(cell);
+            });
+            table.appendChild(row);
+        });
+    }
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+    const multasForm = document.getElementById('upload-ticket-form');
+    const arrestosForm = document.getElementById('upload-arrest-form');
+
+
+    multasForm.addEventListener('submit', function (event) {
+        setLoadingOn()
+        event.preventDefault();
+
+        const data = {
+            type: "multa",
+            record: document.getElementById('articulos-multa').value,
+            plate: document.getElementById('placa-multa').value,
+            value: document.getElementById('valor-multa').value,
+          
+           
+        };
+
+        axios.post('/v1/sendticket', {ticketData:data,agentName:agentName,pedData:personInfo})
+            .then(response => {
+                console.log('Multa subida:', response.data);
+                setLoadingOff()
+                alert('Multa subida exitosamente');
+                multasForm.reset(); 
+                
+            })
+            .catch(error => {
+                setLoadingOff()
+                console.error('Error al subir la multa:', error);
+                alert('Hubo un error al subir la multa');
+            });
+    });
+
+    arrestosForm.addEventListener('submit', function (event) {
+    event.preventDefault();
+    setLoadingOn();
+
+
+    const data = {
+        ticketData: {
+            record: document.getElementById('articulo-arresto').value,
+            time: document.getElementById('tiempo-arresto').value
+        },
+        agentName: agentName,
+        pedData: personInfo
+    };
+
+    const photo = document.getElementById('photo').files[0];
+
+
+    const formData = new FormData();
+    
+  
+    formData.append('data', JSON.stringify(data));
+    
+
+    formData.append('photo', photo);
+
+
+    axios.post('/v1/sendrecord', formData, {
+        headers: {
+            'Content-Type': 'multipart/form-data'
+        }
+    })
+    .then(response => {
+        console.log('Arresto subido:', response.data);
+        setLoadingOff();
+        alert('Arresto subido exitosamente');
+        arrestosForm.reset();
+    })
+    .catch(error => {
+        console.error('Error al subir el arresto:', error);
+        setLoadingOff();
+        alert('Hubo un error al subir el arresto');
+    });
+});
+});
+</script>
+<script src="../dashboard/getinfo.js"></script>
+</html>
