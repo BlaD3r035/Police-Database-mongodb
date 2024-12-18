@@ -94,7 +94,7 @@ the procedure established in Article 135 of Law 769 of 2002, as amended by Artic
 
     try {
       await client.editUserBalance(guildID, userID, { cash: -ticketData.value });
-      await client.editUserBalance(guildID, process.env.OFFICER_ACCOUNT_ID, { cash: +ticketData.value });
+      await client.editUserBalance(guildID, pedData.userId, { cash: +ticketData.value });
     } catch (error) {
       console.error('Error updating user balance', error);
       return res.status(500).json('Failed to deduct the users balance');
