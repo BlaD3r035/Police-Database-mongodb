@@ -7,6 +7,8 @@ const documentSchema = new mongoose.Schema({
     name:{type: String, required:true},
     lastname:{type: String, required:true},
     sex:{type: String, required:true},
+    age:{type: String, required:true},
+    height:{type: String, required:true},
     placeofbirth:{type: String, required:true},
     birthdate:{type: String, required:true},
     userroblox:{type: String, required:true},

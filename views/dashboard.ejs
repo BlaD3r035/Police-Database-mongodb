@@ -54,11 +54,6 @@
             </div>
             <div class="right-content-box">
                 <div class="table-container">
-                    <label for="table-licence">LICENCE</label>
-                    <table id="table-licence">
-                        <tr><th>STATUS</th><th>CATEGORY</th><th>EXP</th><th>RESTRICTION</th></tr>
-                    </table>
-                    <br>
                     <label for="table-vehicles">VEHICLES</label>
                     <table id="table-vehicles">
                         <tr><th>MODEL</th><th>PLATE</th><th>COLOR</th></tr>
@@ -67,20 +62,15 @@
 
                     <label for="table-records">CRIMINAL RECORDS</label>
                     <table id="table-records">
-                        <tr><th>RECORD</th><th>TIME</th><th>OFFICER NAME</th><th>REG DATE</th></tr>
+                        <tr><th>RECORD</th><th>TIME</th><th>OFFICER NAME</th></tr>
                     </table>
                     <br>
 
                     <label for="table-tickets">TICKETS</label>
                     <table id="table-tickets">
-                        <tr><th>ARTICLES</th><th>PLATE</th><th>COST</th><th>OFFICER NAME</th><th>REG DATE</th></tr>
+                        <tr><th>ARTICLES</th><th>PLATE</th><th>COST</th><th>OFFICER NAME</th></tr>
                     </table>
-                    <br>
-
-                    <label for="table-warnings">WARNINGS</label>
-                    <table id="table-warnings">
-                        <tr><th>WARNINGS</th></tr>
-                    </table>
+                    
                 </div>
             </div>
         </div>
@@ -139,17 +129,17 @@
 <script>
     let personInfo;
     let searchPerson;
-    const agentName = '<%=userdata.nombreic%>' + " " + "<%=userdata.apellido1ic%>";
+    const agentName = '<%=userdata.name%>' + " " + "<%=userdata.lastname%>";
     
     function toggleForm(formId, formId2) {
         if (!searchPerson) {
             return;
         } else {
-            document.getElementById('name-form').innerText = "Name: " + personInfo.nombreic;
-            document.getElementById('lastName-form').innerText = "Last Name: " + personInfo.apellido1ic;
+            document.getElementById('name-form').innerText = "Name: " + personInfo.name;
+            document.getElementById('lastName-form').innerText = "Last Name: " + personInfo.lastname;
             document.getElementById('documentId-form').innerText = "Document ID: " + personInfo.documentId;
-            document.getElementById('name-form2').innerText = "Name: " + personInfo.nombreic;
-            document.getElementById('lastName-form2').innerText = "Last Name: " + personInfo.apellido1ic;
+            document.getElementById('name-form2').innerText = "Name: " + personInfo.name;
+            document.getElementById('lastName-form2').innerText = "Last Name: " + personInfo.lastname;
             document.getElementById('documentId-form2').innerText = "Document ID: " + personInfo.documentId;
             document.getElementById(formId2).style.display = 'none';
             document.getElementById(formId).style.display = document.getElementById(formId).style.display === 'none' ? 'block' : 'none';
@@ -196,16 +186,16 @@
 
         axios.post('/v1/sendticket', {ticketData:data,agentName:agentName,pedData:personInfo})
             .then(response => {
-                console.log('Multa subida:', response.data);
+                console.log('ticket uploaded successfully:', response.data);
                 setLoadingOff()
-                alert('Multa subida exitosamente');
+                alert('ticket uploaded successfully');
                 multasForm.reset(); 
                 
             })
             .catch(error => {
                 setLoadingOff()
-                console.error('Error al subir la multa:', error);
-                alert('Hubo un error al subir la multa');
+                console.error('error uploading ticket:', error);
+                alert('error uploading ticket');
             });
     });
 
@@ -241,15 +231,15 @@
         }
     })
     .then(response => {
-        console.log('Arresto subido:', response.data);
+        console.log('Arrest uploaded successfully:', response.data);
         setLoadingOff();
-        alert('Arresto subido exitosamente');
+        alert('Arrest uploaded successfully');
         arrestosForm.reset();
     })
     .catch(error => {
-        console.error('Error al subir el arresto:', error);
+        console.error('error uploading arrest:', error);
         setLoadingOff();
-        alert('Hubo un error al subir el arresto');
+        alert('Error uploading arrest');
     });
 });
 });

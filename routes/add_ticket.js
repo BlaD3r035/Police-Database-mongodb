@@ -6,7 +6,8 @@ const { Client } = require('unb-api');
 const fs = require('fs');
 const PDFDocument = require('pdfkit');
 const path = require('path');
-const client = new Client('your api token here');
+
+const client = new Client(process.env.UNB_API_TOKEN);
 
 router.post('/sendticket', async (req, res) => {
   const { ticketData, agentName, pedData } = req.body;
@@ -16,7 +17,6 @@ router.post('/sendticket', async (req, res) => {
   }
 
   try {
-  
     const multaDoc = new Tickets({
       userId: pedData.userId,
       type: ticketData.type,
@@ -37,9 +37,8 @@ router.post('/sendticket', async (req, res) => {
     const doc = new PDFDocument();
     doc.pipe(fs.createWriteStream(pdfPath));
 
-
     doc.fontSize(20).text('TRAFFIC FINE/CITATION RECORD', { align: 'center' });
-    doc.moveDown().fontSize(14).text(`Dear Mr./Ms. ${pedData.nombreic} ${pedData.apellidoic}`);
+    doc.moveDown().fontSize(14).text(`Dear Mr./Ms. ${pedData.name} ${pedData.lastname}`);
     doc.moveDown().text(`The District Mobility Secretariat informs you that, in compliance with
 the procedure established in Article 135 of Law 769 of 2002, as amended by Article 22 of Law 1383 of 2010, the following citation order has been issued for ${ticketData.record}.`);
 
@@ -64,7 +63,6 @@ the procedure established in Article 135 of Law 769 of 2002, as amended by Artic
     doc.moveDown().fontSize(14).text('This document can be used as evidence of the validity of this process.', { align: 'center' });
 
     doc.end();
-
 
     const discordWebhookUrl = process.env.TICKET_WEBHOOK;
     const discordMessage = {
@@ -91,18 +89,17 @@ the procedure established in Article 135 of Law 769 of 2002, as amended by Artic
 
     await axios.post(discordWebhookUrl, discordMessage);
 
-   
-    const guildID = 'your guild id ';
+    const guildID = process.env.GUILD_ID; 
     const userID = pedData.userId;
+
     try {
       await client.editUserBalance(guildID, userID, { cash: -ticketData.value });
-      await client.editUserBalance(guildID, "any user to add money for", { cash: +ticketData.value });
+      await client.editUserBalance(guildID, process.env.OFFICER_ACCOUNT_ID, { cash: +ticketData.value });
     } catch (error) {
       console.error('Error updating user balance', error);
       return res.status(500).json('Failed to deduct the users balance');
     }
 
-   
     return res.status(200).json({ message: 'Ticket saved successfully', pdfUrl: `/pdfs/multas/${multaDoc._id}.pdf` });
   } catch (e) {
     console.error('Error saving data: ', e);

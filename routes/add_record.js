@@ -72,7 +72,7 @@ router.post('/sendrecord', (req, res) => {
       const doc = new PDFDocument();
       doc.pipe(fs.createWriteStream(pdfPath));
       doc.fontSize(20).text('POLICE RECORD NOTIFICATION', { align: 'center' });
-      doc.moveDown().fontSize(14).text(`Dear Mr./Ms. ${pedData.nombreic} ${pedData.apellidoic}`);
+      doc.moveDown().fontSize(14).text(`Dear Mr./Ms. ${pedData.name} ${pedData.lastname}`);
       doc.moveDown().text(`This is to inform you that, as of ${new Date()}, a criminal report has been generated for the offense: ${ticketData.record}.`);
       doc.moveDown().fontSize(14).text('Citizen Information:', { underline: true });
       doc.fontSize(12).text(`- ID Document: ${pedData.documentId}`);
