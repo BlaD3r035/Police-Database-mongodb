@@ -8,6 +8,7 @@
 
 This project integrates with **Discord webhooks** for notifications and leverages the **Unb-API** to enhance functionality related to user information and administrative actions.
 
+This is a basic example, you can add more information. remember, the design of the page is too simple bc it's just an example.
 ---
 
 ### Features
@@ -53,6 +54,9 @@ This project integrates with **Discord webhooks** for notifications and leverage
 3. **schemas**:
    add and modify the schemas and set yours, you can add and modify all funcionality in the db to add or remove information
 
+4. **ajust bot / page / general db**:
+   if you want to use your information you need to set a bot or other page where you can save ids, vehicles etc, that bc the page just save records and tickets. 
+
 5. **Run the server**:
    ```bash
    npm start
@@ -74,7 +78,10 @@ This project is open for contributions. Feel free to fork the repository, make c
 ---
 
 ### License
-This project is for educational purposes and is released under the MIT License.
+This project is for educational purposes. 
+
+**Private use**: you don't need any mark or copyright sign
+**Public use**: add my github username/link or repository link
 
 --- 
 
@@ -85,4 +92,4 @@ macondo is a fictional town in "100 años de soledad- Gabriel Garcia Marquez".
 
 --- 
 
-This README provides an overview, installation guide, and usage instructions for the **POLICE DATABASE** project. For further details, refer to the code comments and documentation within each module.
+
