@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const Cedulas = require('../schemas/cedulas'); 
-const Vehiculos = require('../schemas/vehiculos'); 
+const Ids = require('../schemas/ids'); 
+const Vehicles = require('../schemas/vehicles'); 
 
 // Get user data by document ID
 router.get('/user', async (req, res) => {
@@ -10,7 +10,7 @@ router.get('/user', async (req, res) => {
 console.log(documentId)
     if (documentId) {
         try {
-            const user = await Cedulas.findOne({ documentId:documentId });
+            const user = await Ids.findOne({ documentId:documentId });
             if (!user) {
                 return res.status(404).json('No user found');
             }
@@ -29,7 +29,7 @@ router.get('/plate', async (req, res) => {
     const { plate } = req.query;
     if (plate) {
         try {
-            const vehicle = await Vehiculos.findOne({ placa: plate }).select('owner');
+            const vehicle = await Vehicles.findOne({ plate: plate }).select('owner');
             if (!vehicle) {
                 return res.status(404).json('No plate found');
             }

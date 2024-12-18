@@ -2,9 +2,9 @@
 const express = require('express')
 const session = require('express-session')
 const router= express.Router()
-const Cedulas = require('../schemas/cedulas')
+const Ids = require('../schemas/ids')
 
-//set the session (this case we don't gonna use storage, you may need to set that if you wanna save the sessions )
+//set the session (this case we don't going to use storage, you may need to set that if you want to save the sessions )
 router.use(session({
     key: 'login_session',
     secret: process.env.SESSION_PASSWORD, 
@@ -41,7 +41,7 @@ router.get('/dashboard',isAuthenticated,(req,res)=>{
 router.post('/login', async (req, res) => {
     const { docId, password } = req.body;
     
-   const user = await Cedulas.findOne({documentId: docId})
+   const user = await Ids.findOne({documentId: docId})
    if(user){
     // in this case, we use 3001 for all passwords,if you wanna use passwords per user, you may need to use a dedicaded schema for users and use e.g argon2 for hash the password
       if(password !=='3001'){

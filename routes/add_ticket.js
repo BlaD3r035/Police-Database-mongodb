@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const Multas = require('../schemas/multas'); 
+const Tickets = require('../schemas/tickets'); 
 const axios = require('axios');
 const { Client } = require('unb-api');
 const fs = require('fs');
@@ -17,13 +17,13 @@ router.post('/sendticket', async (req, res) => {
 
   try {
   
-    const multaDoc = new Multas({
+    const multaDoc = new Tickets({
       userId: pedData.userId,
-      tipo: ticketData.type,
-      articulos: ticketData.record,
-      placa: ticketData.plate || 'N/A',
-      valor: ticketData.value,
-      agente: agentName
+      type: ticketData.type,
+      articles: ticketData.record,
+      plate: ticketData.plate || 'N/A',
+      value: ticketData.value,
+      officer: agentName
     });
     await multaDoc.save();
 
@@ -45,8 +45,8 @@ the procedure established in Article 135 of Law 769 of 2002, as amended by Artic
 
     doc.moveDown().fontSize(14).text('Citizen Information:', { underline: true });
     doc.fontSize(12).text(`- ID Document: ${pedData.documentId}`);
-    doc.text(`- Name: ${pedData.nombreic} ${pedData.apellidoic}`);
-    doc.text(`- Date of Birth: ${pedData.fechadenacimiento}`);
+    doc.text(`- Name: ${pedData.name} ${pedData.lastname}`);
+    doc.text(`- Date of Birth: ${pedData.birthdate}`);
     doc.text(`- Vehicle Plate (if applicable): ${ticketData.plate || 'N/A'}`);
 
     doc.moveDown().fontSize(14).text('Officer Information:', { underline: true });
@@ -79,7 +79,7 @@ the procedure established in Article 135 of Law 769 of 2002, as amended by Artic
             { name: 'Articles', value: ticketData.record, inline: false },
             { name: 'Fine Amount', value: `$${ticketData.value}`, inline: false },
             { name: 'Vehicle Plate', value: ticketData.plate, inline: false },
-            { name: 'Notification', value: `https://yourdomain/pdfs/multas/${multaDoc._id}.pdf`, inline: false }
+            { name: 'Notification', value: `http://localhost:${process.env.PORT}/pdfs/multas/${multaDoc._id}.pdf`, inline: false }
           ],
           footer: {
             text: 'MCPD',

@@ -5,7 +5,7 @@ const fs = require('fs');
 const PDFDocument = require('pdfkit');
 const path = require('path');
 const multer = require('multer');
-const Antecedentes = require('../schemas/antecedentes');
+const Records = require('../schemas/records');
 
 
 const storage = multer.diskStorage({
@@ -51,11 +51,11 @@ router.post('/sendrecord', (req, res) => {
 
       const endTime = new Date();
       endTime.setMinutes(endTime.getMinutes() + parseInt(ticketData.time, 10));
-      const newRecord = new Antecedentes({
+      const newRecord = new Records({
         userId: pedData.userId,
-        articulos: ticketData.record,
-        tiempo: ticketData.time,
-        agente: agentName,
+        articles: ticketData.record,
+        time: ticketData.time,
+        officer: agentName,
       });
       await newRecord.save();
 
@@ -76,8 +76,8 @@ router.post('/sendrecord', (req, res) => {
       doc.moveDown().text(`This is to inform you that, as of ${new Date()}, a criminal report has been generated for the offense: ${ticketData.record}.`);
       doc.moveDown().fontSize(14).text('Citizen Information:', { underline: true });
       doc.fontSize(12).text(`- ID Document: ${pedData.documentId}`);
-      doc.text(`- Name: ${pedData.nombreic} ${pedData.apellidoic}`);
-      doc.text(`- Date of Birth: ${pedData.fechadenacimiento}`);
+      doc.text(`- Name: ${pedData.name} ${pedData.lastname}`);
+      doc.text(`- Date of Birth: ${pedData.birthdate}`);
       doc.moveDown().fontSize(14).text('Officer Information:', { underline: true });
       doc.fontSize(12).text(`- Officer Name: ${agentName}`);
       doc.moveDown().fontSize(14).text('Process Information:', { underline: true });
@@ -102,9 +102,9 @@ router.post('/sendrecord', (req, res) => {
               { name: 'Arrested', value: `<@${pedData.userId}>`, inline: false },
               { name: 'Offense', value: ticketData.record, inline: false },
               { name: 'Duration', value: `${ticketData.time}`, inline: false },
-              { name: 'Notification', value: `https://yourdomain/pdfs/antecedentes/${multaId}.pdf`, inline: false }
+              { name: 'Notification', value: `http://localhost:${process.env.PORT}/pdfs/antecedentes/${multaId}.pdf`, inline: false }
             ],
-            image: { url: `https://yourdomain/fotos-antecedentes/${multaId}.jpg` },
+            image: { url: `http://localhost:${process.env.PORT}/fotos-antecedentes/${multaId}.jpg` },
             footer: {
               text: 'MCPD',
               icon_url: process.env.SERVER_LOGO

@@ -1,9 +1,9 @@
 const express = require('express');
 const router = express.Router();
-const Cedulas = require('../schemas/cedulas'); 
-const Vehiculos = require('../schemas/vehiculos'); 
-const Antecedentes = require('../schemas/antecedentes'); 
-const Multas = require('../schemas/multas');
+const Ids = require('../schemas/ids'); 
+const Vehicles = require('../schemas/vehicles'); 
+const Records = require('../schemas/records'); 
+const Tickets = require('../schemas/tickets');
 
 // Routes
 
@@ -24,7 +24,7 @@ router.get('/getUserData', async (req, res) => {
 
     try {
         // Fetch user data from Cedulas collection
-        const userCheck = await Cedulas.findOne({ userId });
+        const userCheck = await Ids.findOne({ userId });
         if (!userCheck) {
             return res.status(404).json('No user info found');
         } else {
@@ -35,21 +35,21 @@ router.get('/getUserData', async (req, res) => {
        
 
         if (vehicles) {
-            const vehiclesResult = await Vehiculos.find({ owner: userId });
+            const vehiclesResult = await Vehicles.find({ owner: userId });
             if (vehiclesResult.length > 0) {
                 responseData.vehicles = vehiclesResult;
             }
         }
 
         if (arrestRecord) {
-            const arrestRecordResult = await Antecedentes.find({ userId });
+            const arrestRecordResult = await Records.find({ userId });
             if (arrestRecordResult.length > 0) {
                 responseData.arrestRecord = arrestRecordResult;
             }
         }
 
         if (tickets) {
-            const ticketsResult = await Multas.find({ userId });
+            const ticketsResult = await Tickets.find({ userId });
             if (ticketsResult.length > 0) {
                 responseData.tickets = ticketsResult;
             }
