@@ -40,15 +40,15 @@ This project integrates with **Discord webhooks** for notifications and leverage
 
 3. **Environment Variables**:
    Set up your environment variables by creating a `.env` file in the root directory.
-     ```bash
-MONGODB_URI
-PORT
-SESSION_PASSWORD
-RECORD_WEBHOOK
-TICKET_WEBHOOK
-UNB_API_TOKEN
-GUILD_ID
-   ```
+   ```bash
+    MONGODB_URI
+    PORT
+    SESSION_PASSWORD
+    RECORD_WEBHOOK
+    TICKET_WEBHOOK
+    UNB_API_TOKEN
+    GUILD_ID
+    ```
    
 3. **schemas**:
    add and modify the schemas and set yours, you can add and modify all funcionality in the db to add or remove information
