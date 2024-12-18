@@ -30,7 +30,7 @@ This is a basic example, you can add more information. remember, the design of t
 
 1. **Clone the repository**:
    ```bash
-   git clone https://github.com/yourusername/police-database.git
+   git clone https://github.com/BlaD3r035/Police-Database-mongodb.git
    cd police-database
    ```
 
